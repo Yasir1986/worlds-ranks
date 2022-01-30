@@ -1,23 +1,23 @@
-import { KeyboardArrowDownRounded } from "@material-ui/icons";
-import React, { useEffect, useState } from "react";
+import {
+  KeyboardArrowDownRounded,
+  KeyboardArrowUpRounded,
+} from "@material-ui/icons";
+import  {useState } from "react";
 import styles from "./CountriesTable.module.css";
 
-const orderBy = (countries, direction) => {
+const orderBy = (countries, value, direction) => {
   if (direction === "asc") {
-    return [...countries].sort((a, b) =>
-      a.population > b.population ? 1 : -1
-    );
+    return [...countries].sort((a, b) => (a[value] > b[value] ? 1 : -1));
   }
 
   if (direction === "desc") {
-    return [...countries].sort((a, b) =>
-      a.population > b.population ? -1 : 1
-    );
+    return [...countries].sort((a, b) => (a[value] > b[value] ? -1 : 1));
   }
+
   return countries;
 };
 
-const sortArrow = ({ direction }) => {
+const SortArrow = ({ direction }) => {
   if (!direction) {
     return <></>;
   }
@@ -41,36 +41,47 @@ const CountriesTable = ({ countries }) => {
   const [direction, setDirection] = useState();
   const [value, setValue] = useState();
 
-  const orderedCountries = orderBy(countries, "desc");
+  const orderedCountries = orderBy(countries, value, direction);
 
   const switchDirection = () => {
     if (!direction) {
-      setDirection("dsc");
+      setDirection("desc");
     } else if (direction === "desc") {
       setDirection("asc");
     } else {
       setDirection(null);
     }
-  }
+  };
+
+  const setValueAndDirection = (value) => {
+    switchDirection();
+    setValue(value);
+  };
 
   return (
     <div>
       <div className={styles.heading}>
-        <button className={styles.heading_name}>
+      <button
+          className={styles.heading_name}
+          onClick={() => setValueAndDirection("name")}
+        >
           <div>Name</div>
 
-         <sortArrow />
+          <SortArrow direction={direction} />
         </button>
 
-        <button className={styles.heading_population} onClick={switchDirection}>
+        <button
+          className={styles.heading_population}
+          onClick={() => setValueAndDirection("population")}
+        >
           <div>Population</div>
 
-          <sortArrow direction={direction} />
+          <SortArrow direction={direction} />
         </button>
       </div>
 
-      {orderedCountries.map((country) => (
-        <div className={styles.row}>
+      {orderedCountries.map((country, index) => (
+        <div className={styles.row} key={index}>
           <div className={styles.name}>{country.name}</div>
 
           <div className={styles.population}>{country.population}</div>

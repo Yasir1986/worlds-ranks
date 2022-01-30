@@ -16,19 +16,13 @@
 }
 
 .heading_name,
-.heading_population {
-  flex: 1;
+.heading_population,
+.heading_area,
+.heading_gini {
+  flex: 4;
   color: var(--text-color-secondary);
   font-weight: 500;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.heading_arrow {
-  color: var(--primary-color);
-  margin-left: 2px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -75,5 +69,5 @@
 }
 
 .population {
-  flex: 1;
+  flex: 4;
 }
